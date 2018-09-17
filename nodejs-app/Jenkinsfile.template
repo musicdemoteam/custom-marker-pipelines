@@ -3,6 +3,11 @@ pipeline {
    options { 
     buildDiscarder(logRotator(numToKeepStr: '2'))
   }
+  post {
+    aborted {
+      echo "Why didn't you push my button?"
+    }
+  }
   stages{
   stage('Test') {
   agent { label 'nodejs-app' }
@@ -30,11 +35,6 @@ pipeline {
       options {
         timeout(time: 60, unit: 'SECONDS') 
       }
-     post {
-       aborted {
-         echo "Why didn't you push my button?"
-       }
-     }
       input {
         message "Should we continue?"
         submitterParameter "APPROVER"
